@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员管理系统</title>
+    <script src="js/jquery-3.2.1.js"></script>
+</head>
+<body>
+<h2 align="center">会员管理系统</h2>
+<p>
+    姓名:<input id="name" name="name">&nbsp;&nbsp;&nbsp;
+    会员卡号:<input id="card" name="card">
+    <input type="button" value="查询" id="btn1">
+    <a href="add.html">新增</a>
+</p>
+
+<table border="1px" cellspacing="0" heidden="%">
+    <tr>
+        <th>序号</th>
+        <th>姓名</th>
+        <th>联系电话</th>
+        <th>会员级别</th>
+        <th>会员卡号</th>
+        <th>入会时间</th>
+        <th>操作</th>
+    </tr>
+    <tbody id="ss">
+
+    </tbody>
+</table>
+<script>
+    $(()=>{
+        // 查所有
+        $.ajax({
+            url:"mem",
+            type:"get",
+            dataType: "json",
+            success: (data) => {
+                $("#ss").empty();
+                data.forEach(member=>{
+                    let $th=$(`<tr><th>${member.id}</th><th>${member.name}</th>
+                               <th>${member.phone}</th><th>${member.level}级</th>
+                                <th>${member.card}</th><th>${member.time}</th>
+                                    <th><a href="update.html">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="删除" onclick="deleteMember(this,${member.id})"></tr>`);
+                    $("#ss").append($th);
+                })
+            }
+        })
+        // 按条件查
+        $("#btn1").click(() => {
+            let name=$("#name").val();
+            let card=$("#card").val();
+            $.ajax({
+                url:"mem/"+name+"?card="+card,
+                type:"get",
+                dataType: "json",
+                success: (data) => {
+                    $("#ss").empty();
+                    data.forEach(member=>{
+                        let $th=$(`<tr><th>${member.id}</th><th>${member.name}</th>
+                               <th>${member.phone}</th><th>${member.level}级</th>
+                                <th>${member.card}</th><th>${member.time}</th>
+                                        <th><a href="update.html">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<input value="删除" onclick="deleteMember(this,${member.id})" type="button"></th></tr>`);
+                        $("#ss").append($th);
+                    })
+                }
+            })
+        });
+
+
+    })
+    // 删除
+    function deleteMember(thiz,str){
+        $(thiz).parent().parent().remove();
+        alert(str);
+    }
+</script>
+</body>
+</html>

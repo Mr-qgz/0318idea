@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员管理系统</title>
+</head>
+<body>
+<h2 align="center">会员管理系统</h2>
+<h4>修改会员</h4>
+
+<p>姓名:<input id="name" name="name"></p>
+<p> 联系电话:<input id="phone" name="phone"></p>
+<p> 会员卡号:<input id="card" name="card"></p>
+<p> 会员级别:<input id="level" name="level"></p>
+<P><input value="提交" type="button" id="btn5"></P>
+
+
+<script>
+    $("#btn5").click(()=>{
+        let id=$("#id").val()
+        let obj={'_method':"put",
+            'name':$("#name").val(),
+            'phone':$("#phone").val(),
+            'card':$("#card").val(),
+            'level':$("#level").val()}
+        $.ajax({
+            url:"mem/"+id,
+            type:"post",
+            data:obj,
+            dataType:"json",
+            success:(data)=>{
+                if(data.result>0){
+                    alert("修改成功！")
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
