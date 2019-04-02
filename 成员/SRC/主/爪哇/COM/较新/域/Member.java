@@ -14,6 +14,7 @@ public class Member implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date time;
     private String card;
+    private String sex;
 
     public Integer getId() {
         return id;
